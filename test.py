@@ -6,6 +6,7 @@ import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
 import datetime
+import smtplib
 
 root = tk.Tk()
 
@@ -16,14 +17,13 @@ file = r'DailyReport_STECH.xlsx'
 #Load spreadsheet
 xls= pd.ExcelFile(file)
 sheet = xls.sheet_names
-string = "Here is all sheet: {}".format(sheet)
+string = "Đây là tất cả các sheet: {}".format(sheet)
 print(string)
 
 df = pd.DataFrame(pd.read_excel(file,0))
 #print(df)
 bodyContent=""
 title = "[STECH Báo cáo ngày] Báo cáo công việc ngày {}".format(date)
-
 
 for index,row in df.iterrows():
     if row[0] == date:
