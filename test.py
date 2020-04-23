@@ -8,27 +8,26 @@ from tkinter import filedialog
 import datetime
 import smtplib
 
-root = tk.Tk()
 
 # Khai bao bien global
-date = datetime.date.today().strftime('%d/%m/%Y')
-file = r'DailyReport_STECH.xlsx'
+getTodayDate = datetime.date.today().strftime('%d/%m/%Y') # Định dạng: 13/01/2020
+fileInputLocation = r'DailyReport_STECH.xlsx' # r: trả vể một chuỗi raw
 
-#Load spreadsheet
-xls= pd.ExcelFile(file)
-sheet = xls.sheet_names
-string = "Đây là tất cả các sheet: {}".format(sheet)
-print(string)
+#Tải lên các file Excel và thông tin sheet
+xlsTotalSheet = pd.ExcelFile(file)
+sheetArrayAll = xlsTotalSheet.sheet_names
+stringAllSheet = "Đây là tất cả các sheet: {}".format(sheetArrayAll)
+print(stringAllSheet)
 
-df = pd.DataFrame(pd.read_excel(file,0))
+dataframeFirstSheet = pd.DataFrame(pd.read_excel(file,0)) #-> one way to get sheet
 #print(df)
-bodyContent=""
-title = "[STECH Báo cáo ngày] Báo cáo công việc ngày {}".format(date)
+bodyEmailContent=""
+titleEmail = "[STECH Báo cáo ngày] Báo cáo công việc ngày {}".format(date)
 
-for index,row in df.iterrows():
-    if row[0] == date:
+for index,row in dataframeFirstSheet.iterrows():
+    if row[0] == getTodayDate:
         #print(row[1],row[2],row[3])
-        bodyContent += "Task {} : \n {} \n \t Kết quả: \n \t \t {} \n \t Khó khăn: \n \t \t {} \n \t Đề xuất: \n \t \t {} \n \t Kế hoạch tiếp theo: \n \t \t {} \n ".format(row[1],row[2],row[3],row[4],row[5],row[6])
+        bodyEmailContent += "Task {} : \n {} \n \t Kết quả: \n \t \t {} \n \t Khó khăn: \n \t \t {} \n \t Đề xuất: \n \t \t {} \n \t Kế hoạch tiếp theo: \n \t \t {} \n ".format(row[1],row[2],row[3],row[4],row[5],row[6])
 
-print(title)
-print(bodyContent)
+print(titleEmail)
+print(bodyEmailContent)
